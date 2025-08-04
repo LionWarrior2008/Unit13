@@ -10,8 +10,8 @@ class Hud:
         self.font=pygame.font.Font(self.settings.font_style,self.settings.hud_font_size)
         self.padding=20
         self.update_scores()
-        #self.setup_life_image()
-        #self.update_level()
+        self.setup_life_image()
+        self._update_level()
     def setup_life_image(self):
         self.life_image=pygame.image.load(self.settings.ship_file)
         self.life_image=pygame.transform.scale(self.life_image,(self.settings.ship_w,self.settings.ship_h))
@@ -38,7 +38,7 @@ class Hud:
         self.High_score_rect=self.High_score_image.get_rect()
         self.High_score_rect.midtop=(self.bounderes.centerx,self.padding)
     def _update_level(self):
-        level_str=f'Level:{self.game_stats.score: ,.0f}'
+        level_str=f'Level:{self.game_stats.level: ,.0f}'
         self.level_image=self.font.render(level_str,True,self.settings.text_color,None)
         self.level_rect=self.level_image.get_rect()
         self.level_rect.left=self.padding
@@ -46,7 +46,7 @@ class Hud:
     def draw_lifes(self):
         current_x=self.padding
         current_y=self.padding
-        for i in range(self.game_stats.ships_left):
+        for i in range(self.game_stats.ship_left):
             self.screen.blit(self.life_image,(current_x,current_y))
             current_x+=self.life_rect.width+self.padding
     def draw(self):
