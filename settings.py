@@ -13,7 +13,7 @@ class Settings:
         self.botton_w=200
         self.botton_h=50
         self.botton_color=(0,135,50)
-        self.text_color=(225,225,225)
+        self.text_color=(0,0,0)
         self.font_style=Path.cwd()/'Tektur_Condensed-Black.ttf'
         self.botton_font_size=48
         self.hud_font_size=20        
