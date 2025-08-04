@@ -4,7 +4,9 @@ if TYPE_CHECKING:
     from alien_invasion import AlienInvasion
 
 class Botton:
+    '''Create a play botton class'''
     def __init__(self,game:'AlienInvasion',msg):
+        '''Initalize botton atrubutes'''
         self.game=game
         self.screen=game.screen
         self.bounderies=game.screen.get_rect()
@@ -14,10 +16,12 @@ class Botton:
         self.rect.center=self.bounderies.center
         self.__prep__msg(msg)
     def __prep__msg(self,msg):
+        '''Make the button text'''
         self.msg_image=self.font.render(msg,True,self.settings.text_color,None)
         self.msg_image_rect=self.msg_image.get_rect()
         self.msg_image_rect.center=self.rect.center
     def draw(self):
+        '''Draw the botton and its text'''
         self.screen.fill(self.settings.botton_color,self.rect)
         self.screen.blit(self.msg_image,self.msg_image_rect)
     def check_clicked(self,mouse_pos):
