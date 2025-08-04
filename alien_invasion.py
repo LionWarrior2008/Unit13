@@ -8,6 +8,7 @@ from time import sleep
 from game_stats import GameStats
 from Botton import Botton
 from game_stats import GameStats
+from Hud import Hud
 
 
 class AlienInvasion:
@@ -33,6 +34,7 @@ class AlienInvasion:
         self._create_fleet()
         self.game_stats = GameStats(self)
         self.play_botton=Botton(self, 'Play')
+        self.Hud=Hud(self)
         self.game_active=False
 
     def run_game(self):
@@ -51,6 +53,7 @@ class AlienInvasion:
         """Respond to keypresses and mouse events."""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                self.game_stats.saves_scores()
                 sys.exit()
             elif event.type ==pygame.KEYDOWN:
                 self._check_keydown_events(event)
@@ -141,6 +144,7 @@ class AlienInvasion:
             self.bullets.empty()
             self._create_fleet()
             self.game_stats.update_level()
+            self.Hud.update_scores()
     def reset_level(self):
         self.settings.intialise_dynamic_settings()
         self.bullets.empty()
@@ -154,6 +158,8 @@ class AlienInvasion:
                 break
     def restart_game(self):
         self.settings.intialise_dynamic_settings()
+        self.game_stats.reset_stats()
+        self.Hud.update_scores()
         self.game_stats.ship_left =self.settings.ship_limit
         self.ship.center_ship()
         self.reset_level()
@@ -168,6 +174,8 @@ class AlienInvasion:
         self.ship.blitme()
         self.ship
         self.aliens.draw(self.screen)
+        self.Hud.update_scores()
+        self.Hud.draw()
         self._check_fleet_edges()
         if not self.game_active:
             self.play_botton.draw()
