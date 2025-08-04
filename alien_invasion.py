@@ -12,8 +12,9 @@ from Hud import Hud
 
 
 class AlienInvasion:
-
+    '''Mange game behavior and logic for the Alien Invation Game'''
     def __init__(self):
+        '''Initialize the game,settings,screen,and other game componets '''
         pygame.init()
         self.clock = pygame.time.Clock()
         self.settings = Settings()
@@ -64,6 +65,7 @@ class AlienInvasion:
                 if self.play_botton.check_clicked(mouse_pos):
                     self.restart_game()
     def _check_keydown_events(self,event):
+        '''Respond to key being press down'''
         if event.key == pygame.K_q:
             self.game_stats.saves_scores()
             sys.exit()
@@ -76,14 +78,17 @@ class AlienInvasion:
         elif event.key == pygame.K_SPACE:
             self._fire_bullets() 
     def _check_keyup_events(self,event):
+        '''Respond to key up'''
         if event.key==pygame.K_s:
             self.ship.moving_down=False
         elif event.key==pygame.K_w:
             self.ship.moving_up=False
     def _fire_bullets(self):
+        '''Make bullets and fires them'''
         new_bullet=Bullet(self)
         self.bullets.add(new_bullet)
     def _create_fleet(self):
+        '''Make alien instantes and makes fleet'''
         alien=Alien(self)
         alien_width,alien_height=alien.rect.size
         current_x=self.settings.screen_width - 2*alien_width
@@ -97,12 +102,14 @@ class AlienInvasion:
             row_count+=1
             current_x-=2*alien_width
     def _create_alien(self,y_position,x_position):
+        '''Makes one alien'''
         new_alien=Alien(self)
         new_alien.rect.x=x_position
         new_alien.rect.y=y_position
         new_alien.x=float(x_position)
         self.aliens.add(new_alien)
     def _update_aliens(self):
+        '''Positions of the aliens and check colisions '''
 
         self.aliens.update()
         if pygame.sprite.spritecollideany(self.ship, self.aliens):
@@ -110,11 +117,13 @@ class AlienInvasion:
              print("Ship hit!!!")
         self._check_aliens_bottum()
     def _check_fleet_edges(self):
+        '''Check if aliens hit the edge '''
         for alien in self.aliens.sprites():
             if alien.check_edges():
                 self._change_fleet_direction()
                 break
     def _ship_hit(self):
+        '''Cheack if the ship gets hit by alien '''
         if self.game_stats.ship_left>0:
             self.game_stats.ship_left-=1
             self.bullets.empty()
@@ -126,16 +135,19 @@ class AlienInvasion:
             self.game_active=False
             pygame.mouse.set_visible(True)
     def _change_fleet_direction(self):
+        '''Drop the fleet '''
         for alien in self.aliens.sprites():
             alien.rect.y += self.settings.fleet_drop_speed 
         self.settings.fleet_direction *= -1
     def _update_bullets(self):
+        '''Update bullet positions'''
         self.bullets.update()
         for bullet in self.bullets.copy():
             if bullet.rect.bottom <= 0:
                  self.bullets.remove(bullet)
         self._check_bullet_alien_collisions()
     def _check_bullet_alien_collisions(self):
+        '''Cheack bullet collisions and update score'''
         collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
         if collisions:
             self.game_stats.update(collisions)
@@ -146,17 +158,20 @@ class AlienInvasion:
             self.game_stats.update_level()
             self.Hud.update_scores()
     def reset_level(self):
+        '''Reset level when advancing or gettting hit'''
         self.settings.intialise_dynamic_settings()
         self.bullets.empty()
         self.aliens.empty()
         self._create_fleet()
         self.ship.center_ship()
     def _check_aliens_bottum(self):
+        '''Check if alien hit edge'''
         for alien in self.aliens.sprites():
             if alien.rect.left<=0:
                 self._ship_hit()
                 break
     def restart_game(self):
+        '''Restart game'''
         self.settings.intialise_dynamic_settings()
         self.game_stats.reset_stats()
         self.Hud.update_scores()

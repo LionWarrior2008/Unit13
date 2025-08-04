@@ -2,7 +2,7 @@ from pathlib import Path
 class Settings:
 
     def __init__(self):
-        # Screen settings
+        '''Screen settings and object dimentions'''
         self.screen_width = 1200
         self.screen_height = 800
         self.bg_color = (230, 230, 230)
@@ -24,6 +24,7 @@ class Settings:
         self.fleet_direction = -1
         self.score_file=Path.cwd()/'scores.json'
     def intialise_dynamic_settings(self):
+        '''Setting stats that will change based on the level'''
         self.ship_speed=4
         self.ship_limit = 3
         self.bullet_speed = 5.0
@@ -33,6 +34,7 @@ class Settings:
         self.bullet_height = 3
         self.alien_points=50
     def increase_diff(self):
+        '''Stats that will change on level'''
         self.alien_speed *= self.difficutly_scale
         self.bullet_speed *= self.difficutly_scale
         self.ship_speed *= self.difficutly_scale
