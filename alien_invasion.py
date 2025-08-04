@@ -1,6 +1,6 @@
 import sys
 import pygame
-from settings import Settings
+from settings import Settings 
 from ship import Ship
 from alien import Alien
 from bullet import Bullet
@@ -176,7 +176,8 @@ class AlienInvasion:
         self.aliens.draw(self.screen)
         self.Hud.update_scores()
         self.Hud.draw()
-        self._check_fleet_edges()
+        if self.game_active:
+            self._check_fleet_edges()
         if not self.game_active:
             self.play_botton.draw()
             pygame.mouse.set_visible(True)

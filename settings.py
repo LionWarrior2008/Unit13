@@ -14,9 +14,13 @@ class Settings:
         self.botton_h=50
         self.botton_color=(0,135,50)
         self.text_color=(0,0,0)
+        self.ship_file=Path.cwd()/'ship.bmp'
+        self.ship_w=30
+        self.ship_h=30
         self.font_style=Path.cwd()/'Tektur_Condensed-Black.ttf'
         self.botton_font_size=48
-        self.hud_font_size=20        
+        self.hud_font_size=20
+        self.fleet_drop_speed=10        
         self.fleet_direction = -1
         self.score_file=Path.cwd()/'scores.json'
     def intialise_dynamic_settings(self):
